@@ -1,0 +1,44 @@
+{
+    "name": "airgram-js-example",
+    "version": "0.0.0",
+    "description": "Basic usage of Airgram with JavaScript",
+    "homepage": "https://airgram.io",
+    "main": "src/index.js",
+    "keywords": [
+        "airgram",
+        "telegram",
+        "telegram client",
+        "tdlib"
+    ],
+    "scripts": {
+        "dev": "DEBUG=airgram* dotenv -e .env nodemon --exec babel-node --config nodemon.json",
+        "lint": "eslint src",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Alexander Krisko",
+    "license": "GPL-3.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/airgram/airgram-js-example.git"
+    },
+    "dependencies": {
+        "airgram": "^3.0.2",
+        "https": "^1.0.0",
+        "request": "^2.88.2"
+    },
+    "devDependencies": {
+        "dotenv-cli": "^1.4.0",
+        "eslint": "^6.3.0",
+        "eslint-config-standard": "^14.1.0",
+        "eslint-friendly-formatter": "^4.0.1",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-node": "^10.0.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.1",
+        "nodemon": "^1.18.9"
+    },
+    "private": true,
+    "bugs": {
+        "url": "https://github.com/airgram/airgram-js-example/issues"
+    }
+}
