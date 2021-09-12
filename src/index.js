@@ -4,7 +4,31 @@ const fs = require('fs')
 const https = require('https')
 const request = require('request')
 
-const filterPhrases = ['NA', 'Na', 'na', 'Admin', 'admin']
+const filterPhrases = [
+    'na',
+    'naa',
+    'na-',
+    'na-all',
+    'na@all',
+    'admin',
+    'pinned',
+    '/report',
+    'spam',
+    'spamming',
+    'spammers',
+    'stupid',
+    'advertisement',
+    '@bestybuddy',
+    'link',
+    'contact',
+    'scam',
+    'questions',
+    'question',
+    'contact',
+    'stop',
+    'whatsApp',
+    'help',
+]
 
 const H1B_Group_DropBox_Chat_Id = -1001371184682
 const Telegram_Group_Chat_Id = 777000
@@ -158,7 +182,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                 const actualMessage = content.text.text
                 const actualMessageArr = actualMessage.split(' ')
                 const found = actualMessageArr.some((r) =>
-                    filterPhrases.includes(r)
+                    filterPhrases.includes(r.toLowerCase())
                 )
                 if (!found) {
                     const message = `#️⃣${fullName}#️⃣: ${actualMessage}`

@@ -1,7 +1,7 @@
 {
-    "name": "airgram-js-example",
-    "version": "0.0.0",
-    "description": "Basic usage of Airgram with JavaScript",
+    "name": "telegram-filter-bot",
+    "version": "1.0.0",
+    "description": "Read Group messages and post in the channel",
     "homepage": "https://airgram.io",
     "main": "src/index.js",
     "keywords": [
@@ -11,15 +11,16 @@
         "tdlib"
     ],
     "scripts": {
-        "dev": "DEBUG=airgram* dotenv -e .env nodemon --exec babel-node --config nodemon.json",
+        "dev": "DEBUG=airgram* dotenv -e .env nodemon --config nodemon.json",
+        "prod": "pm2 start src/index.js --watch",
         "lint": "eslint src",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Alexander Krisko",
+    "author": "Anil Pamulapati",
     "license": "GPL-3.0",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/airgram/airgram-js-example.git"
+        "url": "git+https://github.com/pamulapatianil/telegram-channel-bot.git"
     },
     "dependencies": {
         "airgram": "^3.0.2",
