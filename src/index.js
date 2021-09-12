@@ -13,6 +13,9 @@ const filterPhrases = [
     'admin',
     'pinned',
     '/report',
+    '/ban',
+    'ban',
+    'report',
     'spam',
     'spamming',
     'spammers',
@@ -29,10 +32,10 @@ const filterPhrases = [
     'whatsApp',
     'help',
 ]
+const Telegram_Group = 777000
 
-const H1B_Group_DropBox_Chat_Id = -1001371184682
-const Telegram_Group_Chat_Id = 777000
-const Automated_Telegram_Channel = -1329071312
+const H1B_H4_Dropbox_Group = -1001371184682
+const H1B_H4_Dropbox_Channel = '@h1b_h4_dropbox_alerts_channel'
 
 const airgram = new Airgram({
     apiId: process.env.APP_ID,
@@ -62,7 +65,7 @@ const isPictureMessage = (content) => content['_'] === 'messagePhoto'
 const sendTextMessage = async (dataToSend) => {
     airgram.api
         .sendMessage({
-            chatId: Automated_Telegram_Channel,
+            chatId: 'enter_group_chat_id_here',
             inputMessageContent: {
                 _: 'inputMessageText',
                 text: {
@@ -77,7 +80,7 @@ const sendTextMessage = async (dataToSend) => {
 const sendPictureMessage = async (photoId) => {
     airgram.api
         .sendMessage({
-            chatId: Automated_Telegram_Channel,
+            chatId: 'enter_group_chat_id_here',
             inputMessageContent: {
                 _: 'inputMessagePhoto',
                 photo: {
@@ -91,7 +94,7 @@ const sendPictureMessage = async (photoId) => {
 
 const sendMessageToBot = (message) => {
     const uriMessage = encodeURIComponent(message)
-    const path = `/bot${process.env.BOT_TOKEN}/sendMessage?chat_id=${process.env.CHANNEL_ID}&text=${uriMessage}`
+    const path = `/bot${process.env.BOT_TOKEN}/sendMessage?chat_id=${H1B_H4_Dropbox_Channel}&text=${uriMessage}`
     return new Promise((resolve, reject) => {
         const options = {
             hostname: 'api.telegram.org',
@@ -136,7 +139,7 @@ const sendPhotoToBot = async (photoId) => {
 
     const options = {
         method: 'POST',
-        url: `https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendPhoto?chat_id=${process.env.CHANNEL_ID}`,
+        url: `https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendPhoto?chat_id=${H1B_H4_Dropbox_Channel}`,
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -174,7 +177,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
         // console.log('[chatId]:', message.chatId)
         // console.log('[content]:', content)
 
-        if (chatId === H1B_Group_DropBox_Chat_Id) {
+        if (chatId === H1B_H4_Dropbox_Group) {
             console.log('[content]:', content)
             const fullName = await getUserName(userId)
 
