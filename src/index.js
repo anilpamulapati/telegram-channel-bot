@@ -32,10 +32,49 @@ const filterPhrases = [
     'whatsApp',
     'help',
 ]
+const searchPhrases = [
+    'available',
+    'open',
+    'opened',
+    'availabl',
+    'avaiable',
+    'availale',
+    'vailable',
+    'avaiable',
+    'avalable',
+    'vailable',
+    'aailable',
+    'vailable',
+    'availablee',
+    'availablle',
+    'availabble',
+    'availaable',
+    'availlable',
+    'avaiilable',
+    'avaailable',
+    'avvailable',
+    'aavailable',
+    'availabel',
+    'availalbe',
+    'availbale',
+    'avaialble',
+    'avaliable',
+    'avialable',
+    'aavilable',
+    'vaailable',
+    'available.',
+    'available-',
+    'available@',
+    'cancelled',
+    'cancelling',
+]
 const Telegram_Group = 777000
 
 const H1B_H4_Dropbox_Group = -1001371184682
-const H1B_H4_Dropbox_Channel = '@h1b_h4_dropbox_alerts_channel'
+const H1B_H4_Dropbox_Channel = '@h1b_h4_dropbox_alert'
+
+const H1B_H4_Regular_Group = -1001452973962
+const H1B_H4_Regular_Channel = '@h1b_h4_regular_alert'
 
 const airgram = new Airgram({
     apiId: process.env.APP_ID,
@@ -62,7 +101,7 @@ const isTextMessage = (content) => content['_'] === 'messageText'
 
 const isPictureMessage = (content) => content['_'] === 'messagePhoto'
 
-const sendTextMessage = async (dataToSend) => {
+const sendTextMessageToGroup = async (dataToSend) => {
     airgram.api
         .sendMessage({
             chatId: 'enter_group_chat_id_here',
@@ -77,7 +116,7 @@ const sendTextMessage = async (dataToSend) => {
         .catch((err) => console.log('Text Message Error:', err))
 }
 
-const sendPictureMessage = async (photoId) => {
+const sendPictureMessageToGroup = async (photoId) => {
     airgram.api
         .sendMessage({
             chatId: 'enter_group_chat_id_here',
@@ -92,9 +131,9 @@ const sendPictureMessage = async (photoId) => {
         .catch((err) => console.log('Picture Message Error:', err))
 }
 
-const sendMessageToBot = (message) => {
+const sendMessageToBot = (message, botToken, channelId) => {
     const uriMessage = encodeURIComponent(message)
-    const path = `/bot${process.env.BOT_TOKEN}/sendMessage?chat_id=${H1B_H4_Dropbox_Channel}&text=${uriMessage}`
+    const path = `/bot${botToken}/sendMessage?chat_id=${channelId}&text=${uriMessage}`
     return new Promise((resolve, reject) => {
         const options = {
             hostname: 'api.telegram.org',
@@ -129,7 +168,7 @@ const sendMessageToBot = (message) => {
     })
 }
 
-const sendPhotoToBot = async (photoId) => {
+const sendPhotoToBot = async (photoId, botToken, channelId) => {
     const downloadedFile = await airgram.api.downloadFile({
         fileId: photoId,
         priority: 32,
@@ -139,7 +178,7 @@ const sendPhotoToBot = async (photoId) => {
 
     const options = {
         method: 'POST',
-        url: `https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendPhoto?chat_id=${H1B_H4_Dropbox_Channel}`,
+        url: `https://api.telegram.org/bot${botToken}/sendPhoto?chat_id=${channelId}`,
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -175,29 +214,81 @@ airgram.on('updateNewMessage', async ({ update }) => {
         } = update.message
 
         // console.log('[chatId]:', message.chatId)
-        // console.log('[content]:', content)
 
-        if (chatId === H1B_H4_Dropbox_Group) {
-            console.log('[content]:', content)
-            const fullName = await getUserName(userId)
+        if (
+            chatId === H1B_H4_Dropbox_Group ||
+            chatId === H1B_H4_Regular_Group
+            // chatId === Telegram_Group
+        ) {
+            // console.log('[content]:', content)
 
             if (isTextMessage(content)) {
                 const actualMessage = content.text.text
                 const actualMessageArr = actualMessage.split(' ')
                 const found = actualMessageArr.some((r) =>
-                    filterPhrases.includes(r.toLowerCase())
+                    searchPhrases.includes(r.toLowerCase())
                 )
-                if (!found) {
-                    const message = `#️⃣${fullName}#️⃣: ${actualMessage}`
-                    await sendMessageToBot(message)
+                const isQuestion = actualMessage.includes('?')
+
+                if (found && !isQuestion) {
+                    const message = `${actualMessage}`
+                    if (chatId === H1B_H4_Dropbox_Group) {
+                        await sendMessageToBot(
+                            message,
+                            process.env.DROPBOX_BOT_TOKEN,
+                            H1B_H4_Dropbox_Channel
+                        )
+                    }
+                    if (chatId === H1B_H4_Regular_Group) {
+                        await sendMessageToBot(
+                            message,
+                            process.env.REGULAR_BOT_TOKEN,
+                            H1B_H4_Regular_Channel
+                        )
+                    }
+                    /*
+                    if (chatId === Telegram_Group) {
+                        await sendMessageToBot(
+                            message,
+                            process.env.REGULAR_BOT_TOKEN,
+                            H1B_H4_Regular_Channel
+                        )
+                    }
+                    */
                 }
             }
 
             if (isPictureMessage(content)) {
                 const photos = content.photo.sizes
                 const xPhoto = photos.find((p) => p.type === 'x')
-                const { id, size, local, remote } = xPhoto.photo
-                await sendPhotoToBot(id)
+                const mPhoto = photos.find((p) => p.type === 'm')
+
+                const { id, size, local, remote } = xPhoto
+                    ? xPhoto.photo
+                    : mPhoto.photo
+                if (chatId === H1B_H4_Dropbox_Group) {
+                    await sendPhotoToBot(
+                        id,
+                        process.env.DROPBOX_BOT_TOKEN,
+                        H1B_H4_Dropbox_Channel
+                    )
+                }
+                if (chatId === H1B_H4_Regular_Group) {
+                    await sendPhotoToBot(
+                        id,
+                        process.env.REGULAR_BOT_TOKEN,
+                        H1B_H4_Regular_Channel
+                    )
+                }
+                /*
+                if (chatId === Telegram_Group) {
+                    await sendPhotoToBot(
+                        id,
+                        process.env.REGULAR_BOT_TOKEN,
+                        H1B_H4_Regular_Channel
+                    )
+                }
+                */
             }
         }
     } catch (error) {

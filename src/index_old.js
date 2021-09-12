@@ -110,3 +110,13 @@ airgram.on('updateNewMessage', async ({ update }) => {
 (node:46976) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
 */
 })
+
+/*
+                const found = actualMessageArr.some((r) =>
+                    filterPhrases.includes(r.toLowerCase())
+                )
+                if (!found) {
+                    const message = `#️⃣${fullName}#️⃣: ${actualMessage}`
+                    await sendMessageToBot(message)
+                }
+*/
