@@ -59,8 +59,8 @@ const airgram = new Airgram({
 
 airgram.use(
     new Auth({
-        code: () => prompt('Please enter the secret code:\n'),
-        phoneNumber: () => prompt('Please enter your phone number:\n'),
+        code: () => prompt('Please enter the secret code:'),
+        phoneNumber: () => prompt('Please enter your phone number:'),
     })
 )
 
