@@ -232,7 +232,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                 )
                 const isQuestion = actualMessage.includes('?')
                 const isNoOrNotString = actualMessageArr.some((r) =>
-                    ['no', 'not'].includes(r.toLowerCase())
+                    ['no', 'not', 'any'].includes(r.toLowerCase())
                 )
 
                 if (found && !isQuestion && !isNoOrNotString) {
