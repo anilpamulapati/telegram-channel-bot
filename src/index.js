@@ -244,6 +244,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                             H1B_H4_Dropbox_Channel
                         )
                     }
+
                     if (
                         chatId === H1B_H4_Regular_Group_1 ||
                         chatId === H1B_H4_Regular_Group_2
@@ -281,7 +282,11 @@ airgram.on('updateNewMessage', async ({ update }) => {
                         H1B_H4_Dropbox_Channel
                     )
                 }
-                if (chatId === H1B_H4_Regular_Group) {
+
+                if (
+                    chatId === H1B_H4_Regular_Group_1 ||
+                    chatId === H1B_H4_Regular_Group_2
+                ) {
                     await sendPhotoToBot(
                         id,
                         process.env.REGULAR_BOT_TOKEN,
