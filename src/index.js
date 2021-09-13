@@ -73,7 +73,8 @@ const Telegram_Group = 777000
 const H1B_H4_Dropbox_Group = -1001371184682
 const H1B_H4_Dropbox_Channel = '@h1b_h4_dropbox_alert'
 
-const H1B_H4_Regular_Group = -1001452973962
+const H1B_H4_Regular_Group_1 = -1001452973962
+const H1B_H4_Regular_Group_2 = -1001533015824
 const H1B_H4_Regular_Channel = '@h1b_h4_regular_alert'
 
 const airgram = new Airgram({
@@ -217,7 +218,8 @@ airgram.on('updateNewMessage', async ({ update }) => {
 
         if (
             chatId === H1B_H4_Dropbox_Group ||
-            chatId === H1B_H4_Regular_Group
+            chatId === H1B_H4_Regular_Group_1 ||
+            chatId === H1B_H4_Regular_Group_2
             // chatId === Telegram_Group
         ) {
             // console.log('[content]:', content)
@@ -229,8 +231,11 @@ airgram.on('updateNewMessage', async ({ update }) => {
                     searchPhrases.includes(r.toLowerCase())
                 )
                 const isQuestion = actualMessage.includes('?')
+                const isNoOrNotString = actualMessageArr.some((r) =>
+                    ['no', 'not'].includes(r.toLowerCase())
+                )
 
-                if (found && !isQuestion) {
+                if (found && !isQuestion && !isNoOrNotString) {
                     const message = `${actualMessage}`
                     if (chatId === H1B_H4_Dropbox_Group) {
                         await sendMessageToBot(
@@ -239,7 +244,10 @@ airgram.on('updateNewMessage', async ({ update }) => {
                             H1B_H4_Dropbox_Channel
                         )
                     }
-                    if (chatId === H1B_H4_Regular_Group) {
+                    if (
+                        chatId === H1B_H4_Regular_Group_1 ||
+                        chatId === H1B_H4_Regular_Group_2
+                    ) {
                         await sendMessageToBot(
                             message,
                             process.env.REGULAR_BOT_TOKEN,
