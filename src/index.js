@@ -3,35 +3,8 @@ const { Airgram, Auth, prompt, toObject } = require('airgram')
 const fs = require('fs')
 const https = require('https')
 const request = require('request')
+require('dotenv').config()
 
-const filterPhrases = [
-    'na',
-    'naa',
-    'na-',
-    'na-all',
-    'na@all',
-    'admin',
-    'pinned',
-    '/report',
-    '/ban',
-    'ban',
-    'report',
-    'spam',
-    'spamming',
-    'spammers',
-    'stupid',
-    'advertisement',
-    '@bestybuddy',
-    'link',
-    'contact',
-    'scam',
-    'questions',
-    'question',
-    'contact',
-    'stop',
-    'whatsApp',
-    'help',
-]
 const searchPhrases = [
     'available',
     'open',

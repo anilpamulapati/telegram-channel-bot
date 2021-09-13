@@ -11,8 +11,8 @@
         "tdlib"
     ],
     "scripts": {
-        "dev": "DEBUG=airgram* dotenv -e .env nodemon --config nodemon.json",
-        "prod": "pm2 start src/index.js --watch",
+        "dev": "DEBUG=airgram* nodemon --config nodemon.json",
+        "prod": "pm2 start src/index.js",
         "lint": "eslint src",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -25,7 +25,8 @@
     "dependencies": {
         "airgram": "^3.0.2",
         "https": "^1.0.0",
-        "request": "^2.88.2"
+        "request": "^2.88.2",
+        "dotenv": "^10.0.0"
     },
     "devDependencies": {
         "dotenv-cli": "^1.4.0",

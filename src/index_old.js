@@ -120,3 +120,34 @@ airgram.on('updateNewMessage', async ({ update }) => {
                     await sendMessageToBot(message)
                 }
 */
+
+/*
+const filterPhrases = [
+    'na',
+    'naa',
+    'na-',
+    'na-all',
+    'na@all',
+    'admin',
+    'pinned',
+    '/report',
+    '/ban',
+    'ban',
+    'report',
+    'spam',
+    'spamming',
+    'spammers',
+    'stupid',
+    'advertisement',
+    '@bestybuddy',
+    'link',
+    'contact',
+    'scam',
+    'questions',
+    'question',
+    'contact',
+    'stop',
+    'whatsApp',
+    'help',
+]
+*/
