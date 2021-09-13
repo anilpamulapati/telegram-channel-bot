@@ -205,7 +205,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                 )
                 const isQuestion = actualMessage.includes('?')
                 const hasAnyExcludedKeywords = actualMessageArr.some((r) =>
-                    ['no', 'not', 'any', 'what', 'when'].includes(
+                    ['no', 'not', 'any', 'what', 'when', 'suggestion'].includes(
                         r.toLowerCase()
                     )
                 )
