@@ -231,11 +231,13 @@ airgram.on('updateNewMessage', async ({ update }) => {
                     searchPhrases.includes(r.toLowerCase())
                 )
                 const isQuestion = actualMessage.includes('?')
-                const isNoOrNotString = actualMessageArr.some((r) =>
-                    ['no', 'not', 'any'].includes(r.toLowerCase())
+                const hasAnyExcludedKeywords = actualMessageArr.some((r) =>
+                    ['no', 'not', 'any', 'what', 'when'].includes(
+                        r.toLowerCase()
+                    )
                 )
 
-                if (found && !isQuestion && !isNoOrNotString) {
+                if (found && !isQuestion && !hasAnyExcludedKeywords) {
                     const message = `${actualMessage}`
                     if (chatId === H1B_H4_Dropbox_Group) {
                         await sendMessageToBot(
