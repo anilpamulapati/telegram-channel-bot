@@ -11,12 +11,14 @@
         "tdlib"
     ],
     "scripts": {
-        "dev": "DEBUG=airgram* nodemon --config nodemon.json",
-        "prod": "pm2 start src/index.js",
+        "dropboxDev": "DEBUG=airgram* nodemon --config nodemon_dropbox.json",
+        "regularDev": "DEBUG=airgram* nodemon --config nodemon_regular.json",
+        "dropbox": "pm2 start src/index_dropbox.js",
+        "regular": "pm2 start src/index_regular.js",
         "lint": "eslint src",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Anil Pamulapati",
+    "author": "",
     "license": "GPL-3.0",
     "repository": {
         "type": "git",
