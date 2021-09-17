@@ -6,13 +6,13 @@ const airgram = new Airgram({
     apiId: process.env.APP_ID,
     apiHash: process.env.APP_HASH,
     command: process.env.TDLIB_COMMAND,
-    logVerbosityLevel: 1,
+    logVerbosityLevel: 1
 })
 
 airgram.use(
     new Auth({
         code: () => prompt('Please enter the secret code:\n'),
-        phoneNumber: () => prompt('Please enter your phone number:\n'),
+        phoneNumber: () => prompt('Please enter your phone number:\n')
     })
 )
 
@@ -23,7 +23,7 @@ void (async function () {
     const { response: chats } = await airgram.api.getChats({
         limit: 10,
         offsetChatId: 0,
-        offsetOrder: '9223372036854775807',
+        offsetOrder: '9223372036854775807'
     })
     // console.log('[My chats] ', chats)
 })()
@@ -43,7 +43,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
 
     //getting user name details
     const userInfo = await airgram.api.getUser({
-        userId: 496513822,
+        userId: 496513822
     })
 
     const fullName = `${userInfo.response.firstName} ${userInfo.response.lastName}`
@@ -67,9 +67,9 @@ airgram.on('updateNewMessage', async ({ update }) => {
                         _: 'inputMessageText',
                         text: {
                             _: 'formattedText',
-                            text: data,
-                        },
-                    },
+                            text: data
+                        }
+                    }
                 })
                 console.log('[Forward Message]', data)
             }
@@ -89,9 +89,9 @@ airgram.on('updateNewMessage', async ({ update }) => {
                     _: 'inputMessagePhoto',
                     photo: {
                         _: 'inputFileId',
-                        id,
-                    },
-                },
+                        id
+                    }
+                }
             })
         }
 
@@ -119,35 +119,4 @@ airgram.on('updateNewMessage', async ({ update }) => {
                     const message = `#️⃣${fullName}#️⃣: ${actualMessage}`
                     await sendMessageToBot(message)
                 }
-*/
-
-/*
-const filterPhrases = [
-    'na',
-    'naa',
-    'na-',
-    'na-all',
-    'na@all',
-    'admin',
-    'pinned',
-    '/report',
-    '/ban',
-    'ban',
-    'report',
-    'spam',
-    'spamming',
-    'spammers',
-    'stupid',
-    'advertisement',
-    '@bestybuddy',
-    'link',
-    'contact',
-    'scam',
-    'questions',
-    'question',
-    'contact',
-    'stop',
-    'whatsApp',
-    'help',
-]
 */
