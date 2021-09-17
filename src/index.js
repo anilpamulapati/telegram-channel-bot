@@ -4,43 +4,8 @@ const fs = require('fs')
 const https = require('https')
 const request = require('request')
 require('dotenv').config()
+const { searchPhrases, filterPhrases } = require('./constants')
 
-const searchPhrases = [
-    'available',
-    'open',
-    'opened',
-    'availabl',
-    'avaiable',
-    'availale',
-    'vailable',
-    'avaiable',
-    'avalable',
-    'vailable',
-    'aailable',
-    'vailable',
-    'availablee',
-    'availablle',
-    'availabble',
-    'availaable',
-    'availlable',
-    'avaiilable',
-    'avaailable',
-    'avvailable',
-    'aavailable',
-    'availabel',
-    'availalbe',
-    'availbale',
-    'avaialble',
-    'avaliable',
-    'avialable',
-    'aavilable',
-    'vaailable',
-    'available.',
-    'available-',
-    'available@',
-    'cancelled',
-    'cancelling',
-]
 const Telegram_Group = 777000
 
 const H1B_H4_Dropbox_Group = -1001371184682
@@ -54,19 +19,19 @@ const airgram = new Airgram({
     apiId: process.env.APP_ID,
     apiHash: process.env.APP_HASH,
     command: process.env.TDLIB_COMMAND,
-    logVerbosityLevel: 1,
+    logVerbosityLevel: 1
 })
 
 airgram.use(
     new Auth({
         code: () => prompt('Please enter the secret code:'),
-        phoneNumber: () => prompt('Please enter your phone number:'),
+        phoneNumber: () => prompt('Please enter your phone number:')
     })
 )
 
 const getUserName = async (userId) => {
     const userInfo = await airgram.api.getUser({
-        userId,
+        userId
     })
     return `${userInfo.response.firstName} ${userInfo.response.lastName}`
 }
@@ -83,9 +48,9 @@ const sendTextMessageToGroup = async (dataToSend) => {
                 _: 'inputMessageText',
                 text: {
                     _: 'formattedText',
-                    text: dataToSend,
-                },
-            },
+                    text: dataToSend
+                }
+            }
         })
         .catch((err) => console.log('Text Message Error:', err))
 }
@@ -98,9 +63,9 @@ const sendPictureMessageToGroup = async (photoId) => {
                 _: 'inputMessagePhoto',
                 photo: {
                     _: 'inputFileId',
-                    id: photoId,
-                },
-            },
+                    id: photoId
+                }
+            }
         })
         .catch((err) => console.log('Picture Message Error:', err))
 }
@@ -112,7 +77,7 @@ const sendMessageToBot = (message, botToken, channelId) => {
         const options = {
             hostname: 'api.telegram.org',
             path,
-            method: 'GET',
+            method: 'GET'
         }
         const req = https.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode >= 300) {
@@ -147,18 +112,18 @@ const sendPhotoToBot = async (photoId, botToken, channelId) => {
         fileId: photoId,
         priority: 32,
         limit: 0,
-        synchronous: true,
+        synchronous: true
     })
 
     const options = {
         method: 'POST',
         url: `https://api.telegram.org/bot${botToken}/sendPhoto?chat_id=${channelId}`,
         headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'multipart/form-data'
         },
         formData: {
-            photo: fs.createReadStream(downloadedFile.response.local.path),
-        },
+            photo: fs.createReadStream(downloadedFile.response.local.path)
+        }
     }
 
     return new Promise((resolve, reject) => {
@@ -174,7 +139,7 @@ void (async function () {
     const { response: chats } = await airgram.api.getChats({
         limit: 10,
         offsetChatId: 0,
-        offsetOrder: '9223372036854775807',
+        offsetOrder: '9223372036854775807'
     })
 })()
 
@@ -184,7 +149,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
         const {
             chatId,
             content,
-            sender: { userId },
+            sender: { userId }
         } = update.message
 
         // console.log('[chatId]:', message.chatId)
@@ -205,9 +170,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                 )
                 const isQuestion = actualMessage.includes('?')
                 const hasAnyExcludedKeywords = actualMessageArr.some((r) =>
-                    ['no', 'not', 'any', 'what', 'when', 'suggestion'].includes(
-                        r.toLowerCase()
-                    )
+                    filterPhrases.includes(r.toLowerCase())
                 )
 
                 if (found && !isQuestion && !hasAnyExcludedKeywords) {
