@@ -9,11 +9,13 @@ const { searchPhrases, filterPhrases } = require('./constants')
 const Telegram_Group = 777000
 
 const H1B_H4_Dropbox_Group = -1001371184682
-const H1B_H4_Dropbox_Channel = '@h1b_h4_dropbox_alert'
+const H1B_H4_Dropbox_Public_Channel = '@h1b_h4_dropbox_alert'
+const H1B_H4_Dropbox_Private_Channel = -1001535105658
 
 const H1B_H4_Regular_Group_1 = -1001452973962
 const H1B_H4_Regular_Group_2 = -1001533015824
-const H1B_H4_Regular_Channel = '@h1b_h4_regular_alert'
+const H1B_H4_Regular_Public_Channel = '@h1b_h4_regular_alert'
+const H1B_H4_Regular_Private_Channel = -1001584268424
 
 const airgram = new Airgram({
     apiId: process.env.APP_ID,
@@ -179,7 +181,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                         await sendMessageToBot(
                             message,
                             process.env.DROPBOX_BOT_TOKEN,
-                            H1B_H4_Dropbox_Channel
+                            H1B_H4_Dropbox_Private_Channel
                         )
                     }
 
@@ -190,7 +192,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                         await sendMessageToBot(
                             message,
                             process.env.REGULAR_BOT_TOKEN,
-                            H1B_H4_Regular_Channel
+                            H1B_H4_Regular_Private_Channel
                         )
                     }
                     /*
@@ -217,7 +219,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                     await sendPhotoToBot(
                         id,
                         process.env.DROPBOX_BOT_TOKEN,
-                        H1B_H4_Dropbox_Channel
+                        H1B_H4_Dropbox_Private_Channel
                     )
                 }
 
@@ -228,7 +230,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                     await sendPhotoToBot(
                         id,
                         process.env.REGULAR_BOT_TOKEN,
-                        H1B_H4_Regular_Channel
+                        H1B_H4_Regular_Private_Channel
                     )
                 }
                 /*
