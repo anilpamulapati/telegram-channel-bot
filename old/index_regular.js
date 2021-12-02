@@ -4,7 +4,7 @@ const fs = require('fs')
 const https = require('https')
 const request = require('request')
 require('dotenv').config()
-const { searchPhrases, filterPhrases } = require('./constants')
+const { searchPhrases, filterPhrases } = require('../src/constants')
 
 const Telegram_Group = 777000
 

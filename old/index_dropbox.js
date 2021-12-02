@@ -1,10 +1,11 @@
+/* eslint-disable */
 const { Airgram, Auth, prompt, toObject } = require('airgram')
 
 const fs = require('fs')
 const https = require('https')
 const request = require('request')
 require('dotenv').config()
-const { searchPhrases, filterPhrases } = require('./constants')
+const { searchPhrases, filterPhrases } = require('../src/constants')
 
 const Telegram_Group = 777000
 
@@ -154,13 +155,13 @@ airgram.on('updateNewMessage', async ({ update }) => {
             sender: { userId }
         } = update.message
 
-        // console.log('[chatId]:', message.chatId)
+        console.log('[chatId]:', chatId)
 
         if (
             chatId === H1B_H4_Dropbox_Group ||
             chatId === H1B_H4_Regular_Group_1 ||
-            chatId === H1B_H4_Regular_Group_2
-            // chatId === Telegram_Group
+            chatId === H1B_H4_Regular_Group_2 ||
+            chatId === Telegram_Group
         ) {
             // console.log('[content]:', content)
 
@@ -195,15 +196,14 @@ airgram.on('updateNewMessage', async ({ update }) => {
                             H1B_H4_Regular_Private_Channel
                         )
                     }
-                    /*
+
                     if (chatId === Telegram_Group) {
                         await sendMessageToBot(
                             message,
                             process.env.REGULAR_BOT_TOKEN,
-                            H1B_H4_Regular_Channel
+                            H1B_H4_Regular_Public_Channel
                         )
                     }
-                    */
                 }
             }
 
@@ -233,7 +233,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
                         H1B_H4_Regular_Private_Channel
                     )
                 }
-                /*
+
                 if (chatId === Telegram_Group) {
                     await sendPhotoToBot(
                         id,
@@ -241,7 +241,6 @@ airgram.on('updateNewMessage', async ({ update }) => {
                         H1B_H4_Regular_Channel
                     )
                 }
-                */
             }
         }
     } catch (error) {
