@@ -155,7 +155,7 @@ airgram.on('updateNewMessage', async ({ update }) => {
             sender: { userId }
         } = update.message
 
-        console.log('[chatId]:', chatId)
+        // console.log('[chatId]:', chatId)
 
         if (
             chatId === H1B_H4_Dropbox_Group ||
